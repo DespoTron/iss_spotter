@@ -1,5 +1,6 @@
 // index.js
 const { fetchMyIP } = require('./iss');
+const { fetchCoordsByIP } = require('./iss');
 
 
 fetchMyIP((error, ip) => {
@@ -8,6 +9,15 @@ fetchMyIP((error, ip) => {
     return;
   }
 
-  
+
   console.log('It worked! Returned IP:' , ip);
+});
+
+fetchCoordsByIP((ip, callback) => {
+  if(error) {
+    callback(error);
+    return;
+  }
+
+  console.log(ip)
 });
