@@ -36,15 +36,15 @@ const fetchMyIP = function(callback) {
 };
 
 const fetchCoordsByIP = function(ip, callback) {
-  
+
   request(`https://ipvigilante.com/${ip}`, (error, response, body) => {
     if (error) {
       callback(error, null);
       return;
     }
 
-    if(response.statusCode !== 200) {
-      callback(Error(`Status Code ${response.statusCode} when fetching IP. Response: ${body}`), null)
+    if (response.statusCode !== 200) {
+      callback(Error(`Status Code ${response.statusCode} when fetching IP. Response: ${body}`), null);
       return;
     }
 
@@ -52,7 +52,7 @@ const fetchCoordsByIP = function(ip, callback) {
     const longitude = JSON.parse(body).data.longitude;
 
     const myCoordinates = {latitude, longitude};
-    console.log(myCoordinates)
+    console.log(myCoordinates);
     callback(null, myCoordinates);
 
     // another way to print this out
@@ -61,15 +61,15 @@ const fetchCoordsByIP = function(ip, callback) {
   });
 };
 
-const fetchISSFlyOverTimes = function (coords, callback) {
+const fetchISSFlyOverTimes = function(coords, callback) {
 
   request(`http://api.open-notify.org/iss-pass.json?lat=${coords.latitude}&lon=${coords.longitude}`, (error, response, body) =>{
-    if(error) {
-      callback(error, null)
+    if (error) {
+      callback(error, null);
       return;
     }
 
-    if(response.statusCode !== 200) {
+    if (response.statusCode !== 200) {
       callback(Error(`Status Code ${response.statusCode} when fetching IP. Response ${body}`), null);
       return;
     }
