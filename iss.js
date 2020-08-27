@@ -28,28 +28,34 @@ const fetchMyIP = function(callback) {
     }
 
     // if we get here, all's well and we got the data
-    const data = JSON.parse(body).ip;
-    callback(null, data);
+    const myIP = JSON.parse(body).ip;
+    callback(null, myIP);
 
   });
 
 };
 
 const fetchCoordsByIP = function(ip, callback) {
-  request('https://ipvigilante.com/8.8.8.8', (error, response, body) => {
+  request(`https://ipvigilante.com/${ip}`, (error, response, body) => {
     if (error) {
       callback(error, null);
       return;
     }
 
-    if (response.statusCode !== 200) {
-      const msg = `Status code ${response.statusCode} when fetching coordinates IP. Response ${body}`;
-      callback(Error(msg), null);
+    if(response.statusCode !== 200) {
+      callback(Error(`Status Code ${response.statusCode} when fetching IP. Response: ${body}`), null)
       return;
     }
 
-    const data = JSON.parse(body);
-    console.log(data);
+    const latitude = JSON.parse(body).data.latitude;
+    const longitude = JSON.parse(body).data.longitude;
+
+    const myCoordinates = {latitude, longitude};
+    console.log(myCoordinates)
+    callback(null, myCoordinates);
+
+    // another way to print this out
+    //const {latitude, longitude} = JSON.parse(body).data
 
   });
 }
